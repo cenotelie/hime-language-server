@@ -22,9 +22,8 @@ import org.xowl.infra.lsp.engine.DocumentSymbols;
 import org.xowl.infra.lsp.engine.SymbolFactory;
 import org.xowl.infra.lsp.structures.Diagnostic;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Represents a context for an analysis
@@ -57,9 +56,13 @@ public class HimeAnalysisContext {
      */
     public String baseURI;
     /**
-     * Map of the current namespaces
+     * The current terminals
      */
-    public final Map<String, String> namespaces;
+    public final Collection<String> terminals;
+    /**
+     * The current variables
+     */
+    public final Collection<String> variables;
 
     /**
      * Initializes this context
@@ -77,6 +80,7 @@ public class HimeAnalysisContext {
         this.diagnostics = diagnostics;
         this.resource = resourceUri;
         this.baseURI = resourceUri;
-        this.namespaces = new HashMap<>();
+        this.terminals = new ArrayList<>();
+        this.variables = new ArrayList<>();
     }
 }
