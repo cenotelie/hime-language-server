@@ -7,7 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>Hime Language Server</name>
     <description>Language server implementation for the Hime grammar specification language</description>
-    <url>https://xowl.org/</url>
+    <url>https://cenotelie.fr/hime</url>
     <licenses>
         <license>
             <name>GNU Lesser General Public License, Version 3</name>
@@ -204,7 +204,7 @@
                             <XOWL-Build-Timestamp>${timestamp}</XOWL-Build-Timestamp>
                             <XOWL-License-Name>LGPL v3</XOWL-License-Name>
                             <XOWL-License-Resource>/META-INF/dependencies/fr.cenotelie.hime.redist.license</XOWL-License-Resource>
-                            <XOWL-Dependencies>fr.cenotelie.hime.redist; org.w3c.www.schemas.rdf; org.w3c.www.schemas.rdfs; org.w3c.www.schemas.owl; org.clojure.clojure; bootstrap; de.svenkubiak.jBCrypt</XOWL-Dependencies>
+                            <XOWL-Dependencies>fr.cenotelie.hime.redist</XOWL-Dependencies>
                         </manifestEntries>
                     </archive>
                     <descriptorRefs>
