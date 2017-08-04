@@ -20,6 +20,7 @@ package fr.cenotelie.hime.langserver;
 import org.xowl.infra.lsp.runners.LspRunner;
 import org.xowl.infra.lsp.runners.LspRunnerStdStreams;
 import org.xowl.infra.lsp.server.LspServer;
+import org.xowl.infra.lsp.server.LspServerHandlerBase;
 
 /**
  * The main program for this language server
@@ -33,7 +34,7 @@ public class Program {
      * @param args The arguments
      */
     public static void main(String[] args) {
-        LspServer server = new LspServer(new HimeServerHandler());
+        LspServer server = new LspServer(new LspServerHandlerBase(new HimeWorkspace()));
         LspRunner runner = new LspRunnerStdStreams(server);
         runner.run();
     }

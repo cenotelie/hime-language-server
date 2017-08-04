@@ -38,13 +38,13 @@ public class HimeWorkspace extends Workspace {
     @Override
     protected boolean isWorkspaceIncluded(File file) {
         String name = file.getName();
-        return (name.endsWith(".hime"));
+        return (name.endsWith(".gram"));
     }
 
     @Override
     protected String getLanguageFor(File file) {
         String name = file.getName();
-        if (name.endsWith(".hime"))
+        if (name.endsWith(".gram"))
             return "hime";
         return "text";
     }

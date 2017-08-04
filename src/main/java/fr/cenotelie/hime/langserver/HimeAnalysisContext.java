@@ -56,11 +56,19 @@ public class HimeAnalysisContext {
      */
     public String baseURI;
     /**
-     * The current terminals
+     * The imported grammars
+     */
+    public final Collection<String> imported;
+    /**
+     * The known lexical contexts
+     */
+    public final Collection<String> lexicalContexts;
+    /**
+     * The known terminals
      */
     public final Collection<String> terminals;
     /**
-     * The current variables
+     * The known variables
      */
     public final Collection<String> variables;
 
@@ -80,6 +88,8 @@ public class HimeAnalysisContext {
         this.diagnostics = diagnostics;
         this.resource = resourceUri;
         this.baseURI = resourceUri;
+        this.imported = new ArrayList<>();
+        this.lexicalContexts = new ArrayList<>();
         this.terminals = new ArrayList<>();
         this.variables = new ArrayList<>();
     }
