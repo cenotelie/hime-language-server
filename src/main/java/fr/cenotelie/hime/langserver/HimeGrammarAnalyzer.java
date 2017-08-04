@@ -139,18 +139,18 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
      */
     private void inspectTerminals(HimeAnalysisContext context, Symbol grammar, ASTNode node) {
         for (ASTNode child : node.getChildren()) {
-            if (child.getSymbol().getID() == HimeGrammarParser.ID.terminal_context) {
-                String name = node.getChildren().get(0).getValue();
+            if (child.getSymbol().getID() == HimeGrammarLexer.ID.BLOCK_CONTEXT) {
+                String name = child.getChildren().get(0).getValue();
                 Symbol contextSymbol = context.factory.resolve(grammar.getIdentifier() + "." + name);
                 contextSymbol.setKind(SYMBOL_CONTEXT);
                 contextSymbol.setParent(grammar);
                 context.symbols.addDefinition(new DocumentSymbolReference(
                         contextSymbol,
-                        getRangeFor(context.input, node.getChildren().get(0))
+                        getRangeFor(context.input, child.getChildren().get(0))
                 ));
                 context.lexicalContexts.add(name);
-                for (int i = 1; i != node.getChildren().size(); i++)
-                    inspectTerminal(context, grammar, node.getChildren().get(i));
+                for (int i = 1; i != child.getChildren().size(); i++)
+                    inspectTerminal(context, grammar, child.getChildren().get(i));
             } else {
                 inspectTerminal(context, grammar, child);
             }
@@ -243,6 +243,17 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
      * @param node    The AST node
      */
     private void inspectVariables(HimeAnalysisContext context, Symbol grammar, ASTNode node) {
+        for (ASTNode child : node.getChildren()) {
+            String name = child.getChildren().get(0).getValue();
+            Symbol symbolVariable = context.factory.resolve(grammar.getIdentifier() + "." + name);
+            symbolVariable.setKind(SYMBOL_VARIABLE);
+            symbolVariable.setParent(grammar);
+            context.symbols.addDefinition(new DocumentSymbolReference(
+                    symbolVariable,
+                    getRangeFor(context.input, child.getChildren().get(0))
+            ));
+            context.variables.add(name);
+        }
         for (ASTNode child : node.getChildren())
             inspectVariable(context, grammar, child);
     }
@@ -256,14 +267,7 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
      */
     private void inspectVariable(HimeAnalysisContext context, Symbol grammar, ASTNode node) {
         String name = node.getChildren().get(0).getValue();
-        Symbol symbolVariable = context.factory.resolve(grammar.getIdentifier() + "." + name);
-        symbolVariable.setKind(SYMBOL_VARIABLE);
-        symbolVariable.setParent(grammar);
-        context.symbols.addDefinition(new DocumentSymbolReference(
-                symbolVariable,
-                getRangeFor(context.input, node.getChildren().get(0))
-        ));
-        context.variables.add(name);
+        Symbol symbolVariable = context.factory.lookup(grammar.getIdentifier() + "." + name);
 
         Collection<String> parameters = new ArrayList<>();
         if (node.getSymbol().getID() == HimeGrammarParser.ID.cf_rule_template) {
@@ -303,6 +307,12 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
                         "hime.5",
                         this.name,
                         "Missing definition for referenced lexical context '" + name + "'."
+                ));
+            } else {
+                Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + name);
+                context.symbols.addReference(new DocumentSymbolReference(
+                        symbol,
+                        getRangeFor(context.input, node.getChildren().get(0))
                 ));
             }
             inspectVariableDefinition(context, grammar, variable, parameters, node.getChildren().get(1));
@@ -403,9 +413,7 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
                             "Axiom '" + optionValue + "' is not a variable defined in this grammar."
                     ));
                 } else {
-                    Symbol symbol = context.factory.resolve(name + "." + optionValue);
-                    symbol.setKind(SYMBOL_VARIABLE);
-                    symbol.setParent(grammar);
+                    Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + optionValue);
                     context.symbols.addReference(new DocumentSymbolReference(
                             symbol,
                             getRangeFor(context.input, node.getChildren().get(1))
@@ -421,9 +429,7 @@ public class HimeGrammarAnalyzer extends DocumentAnalyzerHime {
                             "Separator terminal '" + optionValue + "' is not a terminal defined in this grammar."
                     ));
                 } else {
-                    Symbol symbol = context.factory.resolve(name + "." + optionValue);
-                    symbol.setKind(SYMBOL_TERMINAL);
-                    symbol.setParent(grammar);
+                    Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + optionValue);
                     context.symbols.addReference(new DocumentSymbolReference(
                             symbol,
                             getRangeFor(context.input, node.getChildren().get(1))
