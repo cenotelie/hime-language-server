@@ -17,10 +17,7 @@
 
 package fr.cenotelie.hime.langserver;
 
-import org.xowl.infra.lsp.engine.Document;
-import org.xowl.infra.lsp.engine.DocumentAnalyzer;
-import org.xowl.infra.lsp.engine.DocumentHoverProvider;
-import org.xowl.infra.lsp.engine.Workspace;
+import org.xowl.infra.lsp.engine.*;
 import org.xowl.infra.lsp.structures.ServerCapabilities;
 import org.xowl.infra.lsp.structures.SymbolKind;
 
@@ -73,6 +70,10 @@ public class HimeWorkspace extends Workspace {
      * The hover provider for Hime grammars
      */
     private final HimeHoverProvider hoverProvider;
+    /**
+     * The code lens provider for Hime grammars
+     */
+    private final HimeLensProvider lensProvider;
 
     /**
      * Initializes this workspace
@@ -81,6 +82,7 @@ public class HimeWorkspace extends Workspace {
         super();
         this.analyzer = new HimeGrammarAnalyzer();
         this.hoverProvider = new HimeHoverProvider(this.symbolRegistry);
+        this.lensProvider = new HimeLensProvider(this.symbolRegistry);
     }
 
     @Override
@@ -105,6 +107,7 @@ public class HimeWorkspace extends Workspace {
         capabilities.addCapability("definitionProvider");
         capabilities.addCapability("documentHighlightProvider");
         capabilities.addCapability("hoverProvider");
+        capabilities.addOption("codeLensProvider.resolveProvider", false);
     }
 
     @Override
@@ -115,5 +118,9 @@ public class HimeWorkspace extends Workspace {
     @Override
     protected DocumentHoverProvider getServiceHoverProvider(Document document) {
         return hoverProvider;
+    }
+
+    protected DocumentLensProvider getServiceLensProvider(Document document) {
+        return lensProvider;
     }
 }
