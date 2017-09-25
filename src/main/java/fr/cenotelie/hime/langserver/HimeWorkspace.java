@@ -17,8 +17,12 @@
 
 package fr.cenotelie.hime.langserver;
 
-import org.xowl.infra.lsp.engine.DocumentAnalyzerProviderStatic;
+import org.xowl.infra.lsp.engine.Document;
+import org.xowl.infra.lsp.engine.DocumentAnalyzer;
+import org.xowl.infra.lsp.engine.DocumentHoverProvider;
 import org.xowl.infra.lsp.engine.Workspace;
+import org.xowl.infra.lsp.structures.ServerCapabilities;
+import org.xowl.infra.lsp.structures.SymbolKind;
 
 import java.io.File;
 
@@ -29,10 +33,54 @@ import java.io.File;
  */
 public class HimeWorkspace extends Workspace {
     /**
+     * The language identifier for Hime grammars
+     */
+    public static final String LANGUAGE = "hime";
+    /**
+     * The type of symbol for a grammar
+     */
+    public static final int SYMBOL_GRAMMAR = SymbolKind.CLASS;
+    /**
+     * The type of symbol for a lexical context
+     */
+    public static final int SYMBOL_CONTEXT = SymbolKind.CONSTANT;
+    /**
+     * The type of symbol for a terminal
+     */
+    public static final int SYMBOL_TERMINAL = SymbolKind.FIELD;
+    /**
+     * The type of symbol for a variable
+     */
+    public static final int SYMBOL_VARIABLE = SymbolKind.METHOD;
+    /**
+     * The type of symbol for a virtual
+     */
+    public static final int SYMBOL_VIRTUAL = SymbolKind.PROPERTY;
+    /**
+     * The type of symbol for an action
+     */
+    public static final int SYMBOL_ACTION = SymbolKind.FUNCTION;
+    /**
+     * The type of symbol for a template rule parameter
+     */
+    public static final int SYMBOL_PARAM = SymbolKind.VARIABLE;
+
+    /**
+     * The analyzer for Hime grammars
+     */
+    private final HimeGrammarAnalyzer analyzer;
+    /**
+     * The hover provider for Hime grammars
+     */
+    private final HimeHoverProvider hoverProvider;
+
+    /**
      * Initializes this workspace
      */
     public HimeWorkspace() {
-        super(new DocumentAnalyzerProviderStatic(new HimeGrammarAnalyzer()));
+        super();
+        this.analyzer = new HimeGrammarAnalyzer();
+        this.hoverProvider = new HimeHoverProvider(this.symbolRegistry);
     }
 
     @Override
@@ -45,7 +93,27 @@ public class HimeWorkspace extends Workspace {
     protected String getLanguageFor(File file) {
         String name = file.getName();
         if (name.endsWith(".gram"))
-            return "hime";
+            return LANGUAGE;
         return "text";
+    }
+
+    @Override
+    protected void listServerCapabilities(ServerCapabilities capabilities) {
+        capabilities.addCapability("referencesProvider");
+        capabilities.addCapability("documentSymbolProvider");
+        capabilities.addCapability("workspaceSymbolProvider");
+        capabilities.addCapability("definitionProvider");
+        capabilities.addCapability("documentHighlightProvider");
+        capabilities.addCapability("hoverProvider");
+    }
+
+    @Override
+    protected DocumentAnalyzer getServiceAnalyzer(Document document) {
+        return analyzer;
+    }
+
+    @Override
+    protected DocumentHoverProvider getServiceHoverProvider(Document document) {
+        return hoverProvider;
     }
 }
