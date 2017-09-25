@@ -62,7 +62,7 @@ public class HimeLensProvider implements DocumentLensProvider {
             if (info.getKind() == HimeWorkspace.SYMBOL_GRAMMAR) {
                 result.add(new CodeLens(info.getLocation().getRange(), new Command(
                         "Compile grammar " + info.getName(),
-                        "compile",
+                        "hime.compile",
                         new Object[]{
                                 document.getUri(),
                                 info.getName()
