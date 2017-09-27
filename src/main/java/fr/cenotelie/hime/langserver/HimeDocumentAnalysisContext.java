@@ -18,9 +18,7 @@
 package fr.cenotelie.hime.langserver;
 
 import fr.cenotelie.hime.redist.Text;
-import org.xowl.infra.lsp.engine.DocumentSymbols;
 import org.xowl.infra.lsp.engine.SymbolFactory;
-import org.xowl.infra.lsp.structures.Diagnostic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +28,7 @@ import java.util.Collection;
  *
  * @author Laurent Wouters
  */
-public class HimeAnalysisContext {
+public class HimeDocumentAnalysisContext {
     /**
      * The text input that was parsed
      */
@@ -40,21 +38,9 @@ public class HimeAnalysisContext {
      */
     public final SymbolFactory factory;
     /**
-     * The symbols for the current document
+     * The current analysis to fill
      */
-    public final DocumentSymbols symbols;
-    /**
-     * The buffer for diagnostics
-     */
-    public final Collection<Diagnostic> diagnostics;
-    /**
-     * The URI of the resource currently being loaded
-     */
-    public final String resource;
-    /**
-     * The base URI for relative URIs
-     */
-    public String baseURI;
+    public final HimeDocumentAnalysis analysis;
     /**
      * The imported grammars
      */
@@ -75,19 +61,14 @@ public class HimeAnalysisContext {
     /**
      * Initializes this context
      *
-     * @param resourceUri The URI of the resource
-     * @param input       The text input that was parsed
-     * @param factory     The factory for symbols
-     * @param symbols     The symbols for the current document
-     * @param diagnostics The buffer for diagnostics
+     * @param input    The text input that was parsed
+     * @param factory  The factory for symbols
+     * @param analysis The current analysis to fill
      */
-    public HimeAnalysisContext(String resourceUri, Text input, SymbolFactory factory, DocumentSymbols symbols, Collection<Diagnostic> diagnostics) {
+    public HimeDocumentAnalysisContext(Text input, SymbolFactory factory, HimeDocumentAnalysis analysis) {
         this.input = input;
         this.factory = factory;
-        this.symbols = symbols;
-        this.diagnostics = diagnostics;
-        this.resource = resourceUri;
-        this.baseURI = resourceUri;
+        this.analysis = analysis;
         this.imported = new ArrayList<>();
         this.lexicalContexts = new ArrayList<>();
         this.terminals = new ArrayList<>();

@@ -65,7 +65,7 @@ public class HimeWorkspace extends Workspace {
     /**
      * The analyzer for Hime grammars
      */
-    private final HimeGrammarAnalyzer analyzer;
+    private final HimeDocumentAnalyzer analyzer;
     /**
      * The hover provider for Hime grammars
      */
@@ -80,7 +80,7 @@ public class HimeWorkspace extends Workspace {
      */
     public HimeWorkspace() {
         super();
-        this.analyzer = new HimeGrammarAnalyzer();
+        this.analyzer = new HimeDocumentAnalyzer();
         this.hoverProvider = new HimeHoverProvider(this.symbolRegistry);
         this.lensProvider = new HimeLensProvider(this.symbolRegistry);
     }
