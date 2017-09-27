@@ -78,7 +78,7 @@ grammar HimeGrammar
 		option			-> NAME '='! LITERAL_STRING ';'! ;
 
 
-		/* Terminals section definition for text grammars */		
+		/* Terminals section definition for text grammars */
 		terminal_def_atom			-> LITERAL_ANY^
 									|  UNICODE_CODEPOINT^
 									|  LITERAL_TEXT^
@@ -87,7 +87,7 @@ grammar HimeGrammar
 									|  UNICODE_BLOCK^
 									|  UNICODE_CATEGORY^
 									|  NAME^;
-		
+
 		terminal_def_element		-> terminal_def_atom^
 									| '('! terminal_definition^ ')'! ;
 		terminal_def_cardinalilty	-> OPERATOR_OPTIONAL^
@@ -102,7 +102,6 @@ grammar HimeGrammar
 		terminal_fragment			-> 'fragment'! NAME '->'! terminal_definition ';'! ;
 		terminal_context			-> BLOCK_CONTEXT^ NAME '{'! terminal_rule* '}'! ;
 		terminal_item				-> terminal_rule^ | terminal_fragment^ | terminal_context^ ;
-
 
 		/* Define symbols for grammar rules */
 		rule_sym_action			-> '@'! NAME ;
@@ -130,7 +129,6 @@ grammar HimeGrammar
 		cf_rule_template		-> NAME rule_template_params '->'! rule_definition ';'! ;
 		cf_rule_simple			-> NAME '->'! rule_definition ';'! ;
 		cf_rule					-> cf_rule_simple^ | cf_rule_template^ ;
-
 
 		/* Define the grammars */
 		grammar_options				-> BLOCK_OPTIONS^ '{'! option* '}'! ;

@@ -74,6 +74,10 @@ public class HimeWorkspace extends Workspace {
      * The code lens provider for Hime grammars
      */
     private final HimeLensProvider lensProvider;
+    /**
+     * The symbol handler for Hime grammars
+     */
+    private final HimeSymbolHandler symbolHandler;
 
     /**
      * Initializes this workspace
@@ -83,6 +87,7 @@ public class HimeWorkspace extends Workspace {
         this.analyzer = new HimeDocumentAnalyzer();
         this.hoverProvider = new HimeHoverProvider(this.symbolRegistry);
         this.lensProvider = new HimeLensProvider(this.symbolRegistry);
+        this.symbolHandler = new HimeSymbolHandler();
     }
 
     @Override
@@ -108,6 +113,8 @@ public class HimeWorkspace extends Workspace {
         capabilities.addCapability("documentHighlightProvider");
         capabilities.addCapability("hoverProvider");
         capabilities.addOption("codeLensProvider.resolveProvider", false);
+        capabilities.addCapability("documentLinkProvider");
+        capabilities.addCapability("renameProvider");
     }
 
     @Override
@@ -120,7 +127,13 @@ public class HimeWorkspace extends Workspace {
         return hoverProvider;
     }
 
+    @Override
     protected DocumentLensProvider getServiceLensProvider(Document document) {
         return lensProvider;
+    }
+
+    @Override
+    protected DocumentSymbolHandler getServiceSymbolHandler(Document document) {
+        return symbolHandler;
     }
 }
