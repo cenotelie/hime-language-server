@@ -17,8 +17,9 @@
 
 package fr.cenotelie.hime.langserver;
 
+import fr.cenotelie.commons.lsp.engine.DocumentAnalysisHime;
+import fr.cenotelie.commons.lsp.engine.SymbolFactory;
 import fr.cenotelie.hime.redist.Text;
-import org.xowl.infra.lsp.engine.SymbolFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class HimeDocumentAnalysisContext {
     /**
      * The current analysis to fill
      */
-    public final HimeDocumentAnalysis analysis;
+    public final DocumentAnalysisHime analysis;
     /**
      * The imported grammars
      */
@@ -65,7 +66,7 @@ public class HimeDocumentAnalysisContext {
      * @param factory  The factory for symbols
      * @param analysis The current analysis to fill
      */
-    public HimeDocumentAnalysisContext(Text input, SymbolFactory factory, HimeDocumentAnalysis analysis) {
+    public HimeDocumentAnalysisContext(Text input, SymbolFactory factory, DocumentAnalysisHime analysis) {
         this.input = input;
         this.factory = factory;
         this.analysis = analysis;

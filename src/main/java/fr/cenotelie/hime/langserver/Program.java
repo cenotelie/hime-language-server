@@ -17,10 +17,10 @@
 
 package fr.cenotelie.hime.langserver;
 
-import org.xowl.infra.lsp.runners.LspRunner;
-import org.xowl.infra.lsp.runners.LspRunnerStdStreams;
-import org.xowl.infra.lsp.server.LspServer;
-import org.xowl.infra.lsp.server.LspServerHandlerBase;
+import fr.cenotelie.commons.lsp.runners.LspRunner;
+import fr.cenotelie.commons.lsp.runners.LspRunnerStdStreams;
+import fr.cenotelie.commons.lsp.server.LspServer;
+import fr.cenotelie.commons.lsp.server.LspServerHandlerBase;
 
 /**
  * The main program for this language server

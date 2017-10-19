@@ -17,9 +17,9 @@
 
 package fr.cenotelie.hime.langserver;
 
-import org.xowl.infra.lsp.engine.*;
-import org.xowl.infra.lsp.structures.ServerCapabilities;
-import org.xowl.infra.lsp.structures.SymbolKind;
+import fr.cenotelie.commons.lsp.engine.*;
+import fr.cenotelie.commons.lsp.structures.ServerCapabilities;
+import fr.cenotelie.commons.lsp.structures.SymbolKind;
 
 import java.io.File;
 

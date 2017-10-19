@@ -17,14 +17,14 @@
 
 package fr.cenotelie.hime.langserver;
 
+import fr.cenotelie.commons.lsp.engine.*;
+import fr.cenotelie.commons.lsp.structures.Diagnostic;
+import fr.cenotelie.commons.lsp.structures.DiagnosticSeverity;
+import fr.cenotelie.commons.utils.IOUtils;
+import fr.cenotelie.commons.utils.TextUtils;
 import fr.cenotelie.hime.redist.ASTNode;
 import fr.cenotelie.hime.redist.ParseResult;
 import fr.cenotelie.hime.redist.Text;
-import org.xowl.infra.lsp.engine.*;
-import org.xowl.infra.lsp.structures.Diagnostic;
-import org.xowl.infra.lsp.structures.DiagnosticSeverity;
-import org.xowl.infra.utils.IOUtils;
-import org.xowl.infra.utils.TextUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -58,13 +58,8 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
     }
 
     @Override
-    protected DocumentAnalysis newAnalysis() {
-        return new HimeDocumentAnalysis();
-    }
-
-    @Override
     protected void doAnalyze(String resourceUri, ASTNode root, Text input, SymbolFactory factory, DocumentAnalysis analysis) {
-        HimeDocumentAnalysisContext context = new HimeDocumentAnalysisContext(input, factory, (HimeDocumentAnalysis) analysis);
+        HimeDocumentAnalysisContext context = new HimeDocumentAnalysisContext(input, factory, (DocumentAnalysisHime) analysis);
         for (ASTNode child : root.getChildren())
             inspectGrammar(context, child);
     }

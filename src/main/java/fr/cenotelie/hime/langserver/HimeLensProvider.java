@@ -17,12 +17,12 @@
 
 package fr.cenotelie.hime.langserver;
 
-import org.xowl.infra.lsp.engine.Document;
-import org.xowl.infra.lsp.engine.DocumentLensProvider;
-import org.xowl.infra.lsp.engine.SymbolRegistry;
-import org.xowl.infra.lsp.structures.CodeLens;
-import org.xowl.infra.lsp.structures.Command;
-import org.xowl.infra.lsp.structures.SymbolInformation;
+import fr.cenotelie.commons.lsp.engine.Document;
+import fr.cenotelie.commons.lsp.engine.DocumentLensProvider;
+import fr.cenotelie.commons.lsp.engine.SymbolRegistry;
+import fr.cenotelie.commons.lsp.structures.CodeLens;
+import fr.cenotelie.commons.lsp.structures.Command;
+import fr.cenotelie.commons.lsp.structures.SymbolInformation;
 
 import java.util.ArrayList;
 import java.util.Collection;
