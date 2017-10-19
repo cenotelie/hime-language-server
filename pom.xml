@@ -4,7 +4,7 @@
     <groupId>fr.cenotelie.hime</groupId>
     <artifactId>hime-language-server</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Hime Language Server</name>
     <description>Language server implementation for the Hime grammar specification language</description>
     <url>https://cenotelie.fr/hime</url>
@@ -30,7 +30,7 @@
         <connection>scm:hg:https://bitbucket.org/cenotelie/hime-language-server</connection>
         <developerConnection>scm:hg:ssh://hg@bitbucket.org:cenotelie/hime-language-server</developerConnection>
         <url>https://bitbucket.org/cenotelie/hime-language-server</url>
-        <tag>HEAD</tag>
+        <tag>v1.0.0</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
