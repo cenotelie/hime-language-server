@@ -21,10 +21,7 @@ import fr.cenotelie.commons.lsp.engine.Document;
 import fr.cenotelie.commons.lsp.engine.DocumentHoverProvider;
 import fr.cenotelie.commons.lsp.engine.Symbol;
 import fr.cenotelie.commons.lsp.engine.SymbolRegistry;
-import fr.cenotelie.commons.lsp.structures.Hover;
-import fr.cenotelie.commons.lsp.structures.MarkedStringMarkdown;
-import fr.cenotelie.commons.lsp.structures.Position;
-import fr.cenotelie.commons.lsp.structures.Range;
+import fr.cenotelie.commons.lsp.structures.*;
 
 import java.util.Objects;
 
@@ -63,19 +60,19 @@ public class HimeHoverProvider implements DocumentHoverProvider {
         Range range = symbol.getRangeAt(document.getUri(), position);
         switch (symbol.getKind()) {
             case HimeWorkspace.SYMBOL_GRAMMAR:
-                return new Hover(new MarkedStringMarkdown("Grammar `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Grammar `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_CONTEXT:
-                return new Hover(new MarkedStringMarkdown("Lexical context `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Lexical context `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_TERMINAL:
-                return new Hover(new MarkedStringMarkdown("Terminal symbol `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Terminal symbol `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_VARIABLE:
-                return new Hover(new MarkedStringMarkdown("Variable symbol `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Variable symbol `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_VIRTUAL:
-                return new Hover(new MarkedStringMarkdown("Virtual symbol `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Virtual symbol `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_ACTION:
-                return new Hover(new MarkedStringMarkdown("Grammar action `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Grammar action `" + symbol.getName() + "`"), range);
             case HimeWorkspace.SYMBOL_PARAM:
-                return new Hover(new MarkedStringMarkdown("Variable parameter `" + symbol.getName() + "`"), range);
+                return new Hover(new MarkupContent(MarkupKind.MARKDOWN, "Variable parameter `" + symbol.getName() + "`"), range);
             default:
                 return null;
         }

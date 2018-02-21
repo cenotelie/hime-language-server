@@ -106,7 +106,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
      */
     private void inspectTerminals(HimeDocumentAnalysisContext context, Symbol grammar, ASTNode node) {
         for (ASTNode child : node.getChildren()) {
-            if (child.getSymbol().getID() == HimeGrammarLexer.ID.BLOCK_CONTEXT) {
+            if (child.getSymbol().getID() == HimeGrammarLexer.ID.TERMINAL_BLOCK_CONTEXT) {
                 String name = child.getChildren().get(0).getValue();
                 Symbol contextSymbol = context.factory.resolve(grammar.getIdentifier() + "." + name);
                 contextSymbol.setKind(HimeWorkspace.SYMBOL_CONTEXT);
@@ -153,7 +153,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
      * @param node     The AST node
      */
     private void inspectTerminalDefinition(HimeDocumentAnalysisContext context, Symbol grammar, String terminal, ASTNode node) {
-        if (node.getSymbol().getID() == HimeGrammarLexer.ID.NAME) {
+        if (node.getSymbol().getID() == HimeGrammarLexer.ID.TERMINAL_NAME) {
             String name = node.getValue();
             if (terminal.equals(name)) {
                 // self-reference
@@ -237,7 +237,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
         Symbol symbolVariable = context.factory.lookup(grammar.getIdentifier() + "." + name);
 
         Collection<String> parameters = new ArrayList<>();
-        if (node.getSymbol().getID() == HimeGrammarParser.ID.cf_rule_template) {
+        if (node.getSymbol().getID() == HimeGrammarParser.ID.VARIABLE_CF_RULE_TEMPLATE) {
             for (ASTNode child : node.getChildren().get(1).getChildren()) {
                 String paramName = child.getValue();
                 parameters.add(paramName);
@@ -265,7 +265,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
      * @param node       The AST node
      */
     private void inspectVariableDefinition(HimeDocumentAnalysisContext context, Symbol grammar, String variable, Collection<String> parameters, ASTNode node) {
-        if (node.getSymbol().getID() == HimeGrammarParser.ID.rule_def_context) {
+        if (node.getSymbol().getID() == HimeGrammarParser.ID.VARIABLE_RULE_DEF_CONTEXT) {
             String name = node.getChildren().get(0).getValue();
             if (!context.lexicalContexts.contains(name)) {
                 context.analysis.getDiagnostics().add(new Diagnostic(
@@ -283,7 +283,9 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
                 ));
             }
             inspectVariableDefinition(context, grammar, variable, parameters, node.getChildren().get(1));
-        } else if (node.getSymbol().getID() == HimeGrammarParser.ID.rule_sym_action) {
+        } else if (node.getSymbol().getID() == HimeGrammarParser.ID.VARIABLE_RULE_DEF_SUB) {
+            inspectVariableDefinition(context, grammar, variable, parameters, node.getChildren().get(0));
+        } else if (node.getSymbol().getID() == HimeGrammarParser.ID.VARIABLE_RULE_SYM_ACTION) {
             String name = node.getChildren().get(0).getValue();
             Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + name);
             symbol.setKind(HimeWorkspace.SYMBOL_ACTION);
@@ -292,7 +294,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
                     symbol,
                     getRangeFor(context.input, node.getChildren().get(0))
             ));
-        } else if (node.getSymbol().getID() == HimeGrammarParser.ID.rule_sym_virtual) {
+        } else if (node.getSymbol().getID() == HimeGrammarParser.ID.VARIABLE_RULE_SYM_VIRTUAL) {
             String name = TextUtils.unescape(node.getChildren().get(0).getValue());
             name = name.substring(1, name.length() - 1);
             Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + name);
@@ -302,7 +304,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
                     symbol,
                     getRangeFor(context.input, node.getChildren().get(0))
             ));
-        } else if (node.getSymbol().getID() == HimeGrammarLexer.ID.NAME) {
+        } else if (node.getSymbol().getID() == HimeGrammarLexer.ID.TERMINAL_NAME) {
             String name = node.getValue();
             // is it a parameter?
             if (parameters.contains(name)) {
