@@ -375,7 +375,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
             if ("Axiom".equals(optionName)) {
                 if (!context.variables.contains(optionValue)) {
                     context.analysis.getDiagnostics().add(new Diagnostic(
-                            getRangeFor(context.input, node.getChildren().get(1)),
+                            getRangeFor(context.input, couple.getChildren().get(1)),
                             DiagnosticSeverity.WARNING,
                             "hime.1",
                             name,
@@ -385,13 +385,13 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
                     Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + optionValue);
                     context.analysis.getSymbols().addReference(new DocumentSymbolReference(
                             symbol,
-                            getRangeFor(context.input, node.getChildren().get(1))
+                            getRangeFor(context.input, couple.getChildren().get(1))
                     ));
                 }
             } else if ("Separator".equals(optionName)) {
                 if (!context.terminals.contains(optionValue)) {
                     context.analysis.getDiagnostics().add(new Diagnostic(
-                            getRangeFor(context.input, node.getChildren().get(1)),
+                            getRangeFor(context.input, couple.getChildren().get(1)),
                             DiagnosticSeverity.WARNING,
                             "hime.2",
                             name,
@@ -401,7 +401,7 @@ public class HimeDocumentAnalyzer extends DocumentAnalyzerHime {
                     Symbol symbol = context.factory.resolve(grammar.getIdentifier() + "." + optionValue);
                     context.analysis.getSymbols().addReference(new DocumentSymbolReference(
                             symbol,
-                            getRangeFor(context.input, node.getChildren().get(1))
+                            getRangeFor(context.input, couple.getChildren().get(1))
                     ));
                 }
             }
